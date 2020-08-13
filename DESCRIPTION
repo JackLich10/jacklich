@@ -9,3 +9,5 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/JackLich10/jacklich
+BugReports: https://github.com/JackLich10/jacklich/issues
