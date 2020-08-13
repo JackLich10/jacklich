@@ -1,0 +1,29 @@
+---
+title: "STA 360: Homework "
+author: "Jack Lichtenstein"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      echo = TRUE, dpi = 300, cache.lazy = FALSE,
+                      tidy = "styler", fig.width = 8, fig.height = 5)
+```
+
+## Loading libraries
+
+```{r load libraries}
+library(tidyverse)
+theme_set(theme_light()) # setting a theme
+```
+
+## Load Data
+
+```{r}
+
+```
+
