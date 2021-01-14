@@ -30,6 +30,7 @@ theme_jack <- function(base_size = 11,
                        base_family = "",
                        base_line_size = base_size/22,
                        base_rect_size = base_size/22,
+                       aspect = F,
                        ...) {
   ret <- ggplot2::theme_bw() +
     ggplot2::theme(plot.title = ggplot2::element_text(face = "bold", size = 28/ggplot2::.pt, hjust = 0),
