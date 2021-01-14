@@ -1,13 +1,26 @@
-Package: jacklich
-Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Package: jacklich10
+Title: Personal R Package
+Version: 1.0.0
+Authors@R: 
+    person(given = "Jack",
+           family = "Lichtenstein",
+           role = c("aut", "cre"),
+           email = "jacklich10@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Loading in my commonly used functions and themes.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to
+    pick a license
+Imports: 
+    cli,
+    crayon,
+    dplyr,
+    forcats,
+    glue,
+    janitor,
+    purrr,
+    rstudioapi,
+    stringr
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/JackLich10/jacklich
-BugReports: https://github.com/JackLich10/jacklich/issues
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
