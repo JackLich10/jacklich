@@ -32,8 +32,7 @@ theme_jack <- function(base_size = 11,
                        base_rect_size = base_size/22,
                        ...) {
   ret <- ggplot2::theme_bw() +
-    ggplot2::theme(aspect.ratio = 9/16,
-                   plot.title = ggplot2::element_text(face = "bold", size = 28/ggplot2::.pt, hjust = 0),
+    ggplot2::theme(plot.title = ggplot2::element_text(face = "bold", size = 28/ggplot2::.pt, hjust = 0),
                    plot.subtitle = ggplot2::element_text(face = "italic", size = 24/ggplot2::.pt),
                    plot.caption = ggplot2::element_text(face = "italic", size = 20/ggplot2::.pt),
                    strip.background = ggplot2::element_rect(color = "black", fill = "#C0C0C0", size = 3, linetype = "blank"),
@@ -45,4 +44,10 @@ theme_jack <- function(base_size = 11,
                    axis.title = ggplot2::element_text(face = "bold", size = 26/ggplot2::.pt),
                    legend.title = ggplot2::element_text(size = 26/ggplot2::.pt),
                    legend.text = ggplot2::element_text(size = 24/ggplot2::.pt))
+
+  if (aspect) {
+    ret <- ret +
+      ggplot2::theme(aspect.ratio = 9/16)
+  }
+  return(ret)
 }
