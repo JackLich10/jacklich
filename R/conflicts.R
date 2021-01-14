@@ -1,28 +1,28 @@
-jacklich10_conflicts <- function() {
+jacklich_conflicts <- function() {
   envs <- grep("^package:", search(), value = TRUE)
   envs <- purrr::set_names(envs)
   objs <- invert(lapply(envs, ls_env))
 
   conflicts <- purrr::keep(objs, ~ length(.x) > 1)
 
-  jacklich10_names <-
-    paste0("package:", jacklich10_packages())
-  conflicts <- purrr::keep(conflicts, ~ any(.x %in% jacklich10_names))
+  jacklich_names <-
+    paste0("package:", jacklich_packages())
+  conflicts <- purrr::keep(conflicts, ~ any(.x %in% jacklich_names))
 
   conflict_funs <- purrr::imap(conflicts, confirm_conflict)
   conflict_funs <- purrr::compact(conflict_funs)
 
-  structure(conflict_funs, class = "jacklich10_conflicts")
+  structure(conflict_funs, class = "jacklich_conflicts")
 }
 
-jacklich10_conflict_message <- function(x) {
+jacklich_conflict_message <- function(x) {
   if (length(x) == 0) {
     return("")
   }
 
   header <- cli::rule(
     left = crayon::bold("Conflicts"),
-    right = "jacklich10_conflicts()"
+    right = "jacklich_conflicts()"
   )
 
   pkgs <- x %>% purrr::map(~ gsub("^package:", "", .))
@@ -48,8 +48,8 @@ jacklich10_conflict_message <- function(x) {
 }
 
 
-print.jacklich10_conflicts <- function(x, ..., startup = FALSE) {
-  cli::cat_line(jacklich10_conflict_message(x))
+print.jacklich_conflicts <- function(x, ..., startup = FALSE) {
+  cli::cat_line(jacklich_conflict_message(x))
 }
 
 

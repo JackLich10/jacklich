@@ -13,7 +13,7 @@ same_library <- function(pkg) {
   )
 }
 
-jacklich10_attach <- function() {
+jacklich_attach <- function() {
   to_load <- core_unloaded()
   if (length(to_load) == 0) {
     return(invisible())
@@ -24,7 +24,7 @@ jacklich10_attach <- function() {
       left = crayon::bold("Attaching packages"),
       right = crayon::cyan(crayon::bold(paste0(
         "jacklich10 ",
-        package_version("jacklich10")
+        package_version("jacklich")
       )))
     ),
     startup = TRUE
