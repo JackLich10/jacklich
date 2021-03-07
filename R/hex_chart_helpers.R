@@ -64,8 +64,12 @@ calculate_hex_coords = function(shots, binwidths) {
 
   hexbin_stats <- dplyr::inner_join(hexbin_coords, hexbin_stats, by = "hexbin_id")
 
+  essential_cols <- c("shot_zone_range", "shot_zone_area")
+  extra_cols <- c("label_loc_x", "label_loc_y", "shot_accuracy_lab",
+                  "fg_fga_lab", "side_by_side")
+
   filtered <- shots %>%
-    dplyr::select(shot_zone_range, shot_zone_area, label_loc_x, label_loc_y, shot_accuracy_lab, fg_fga_lab, side_by_side) %>%
+    dplyr::select(tidyselect::all_of(essential_cols), tidyselect::any_of(extra_cols)) %>%
     dplyr::distinct()
 
   dplyr::inner_join(hexbin_stats, filtered, by = c("shot_zone_area", "shot_zone_range"))
