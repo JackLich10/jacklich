@@ -69,6 +69,9 @@ join_cbb_team_info <- function(data, join_name) {
 # Helper for team color functions
 pivot_long_team_info <- function() {
   ncaahoopR::dict %>%
+    dplyr::mutate(conference = dplyr::case_when(
+      ESPN == "UConn" ~ "Big East",
+      T ~ conference)) %>%
     dplyr::left_join(ncaahoopR::ncaa_colors %>%
                        dplyr::select(-ncaa_name),
                      by = c("ESPN" = "espn_name",
