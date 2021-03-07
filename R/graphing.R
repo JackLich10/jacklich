@@ -1,6 +1,8 @@
 #' Minimal ggplot2 theme building off of theme_bw()
 #'
 #' @param base_size base font size
+#' @param aspect logical specifying whether to change aspect ratio to 9/16
+#' which is useful when using images
 #' @param strip_text_size,strip_text_margin plot strip text size and margin
 #' @param subtitle_size,subtitle_margin plot subtitle size and margin
 #' @param plot_title_size,plot_title_margin plot title size and margin

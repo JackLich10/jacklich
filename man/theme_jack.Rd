@@ -16,6 +16,9 @@ theme_jack(
 \arguments{
 \item{base_size}{base font size}
 
+\item{aspect}{logical specifying whether to change aspect ratio to 9/16
+which is useful when using images}
+
 \item{...}{Other arguments passed to \code{theme_bw}}
 
 \item{strip_text_size, strip_text_margin}{plot strip text size and margin}
