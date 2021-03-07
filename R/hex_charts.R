@@ -210,6 +210,13 @@ generate_hex_chart = function(hex_shots, type = sym(c("bounded_fg_diff", "bounde
 #' @export
 team_player_hex_chart <- function(shots, league_averages, team, player = NULL,
                                   type = sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct", "bounded_points_per_shot")), ...) {
+  # error checking
+  if (is.null(league_averages) & type == "bounded_fg_diff") {
+    usethis::ui_oops("Cannot compare FG% to league average if `league_averages` is NULL...")
+    usethis::ui_info("Returning NULL")
+    return(NULL)
+  }
+
   # if player input, change title and get their image
   if (!is.null(player)) {
     team_label <- player
@@ -219,11 +226,11 @@ team_player_hex_chart <- function(shots, league_averages, team, player = NULL,
       dplyr::pull(player_image)
 
     subtitle <- paste0("Among his ", scales::comma(nrow(shots)),
-                       " ESPN charted shots during the ", unique(shots$season), " season")
+                       " charted shots during the ", unique(shots$season), " season")
   } else {
     team_label <- team
     subtitle <- paste0("Among their ", scales::comma(nrow(shots)),
-                       " ESPN charted shots during the ", unique(shots$season), " season")
+                       " charted shots during the ", unique(shots$season), " season")
   }
   # find team logo
   team_logo <- find_logo(team = team)
