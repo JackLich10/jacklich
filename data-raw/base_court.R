@@ -136,4 +136,4 @@ base_court <- plot_court(court_theme = court_themes$light, use_short_three = T) 
 
 rm(list = setdiff(ls(), "base_court"))
 
-saveRDS(base_court, "data/base_court.rds")
+usethis::use_data(base_court, overwrite = T)

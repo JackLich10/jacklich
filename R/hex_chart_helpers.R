@@ -1,8 +1,3 @@
-# Find logos for a team
-find_logo <- function(team) {
-  ncaahoopR::ncaa_colors$logo_url[ncaahoopR::ncaa_colors$espn_name == team]
-}
-
 # Helper functions to generate hex charts
 hex_bounds <- function(x, binwidth) {
   c(plyr::round_any(min(x), binwidth, floor) - 1e-6,

@@ -9,7 +9,7 @@ team_player_hex_chart(
   league_averages,
   team,
   player = NULL,
-  type = sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct",
+  type = dplyr::sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct",
     "bounded_points_per_shot")),
   ...
 )

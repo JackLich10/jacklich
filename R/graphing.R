@@ -54,3 +54,29 @@ theme_jack <- function(base_size = 11,
   }
   return(ret)
 }
+
+#' Find the logo url for a college basketball team or program
+#'
+#' @param team name of the team for which to return their logo
+#'
+#' @examples
+#' \dontrun{
+#' find_cbb_team_logo(team = "Duke")
+#'}
+#'
+#' @export
+find_cbb_team_logo <- function(team) {
+  ncaahoopR::dict %>%
+    dplyr::left_join(ncaahoopR::ncaa_colors %>%
+                       dplyr::select(-ncaa_name),
+                     by = c("ESPN" = "espn_name",
+                            "conference")) %>%
+    tidyr::pivot_longer(cols = c(NCAA:sref_name),
+                        names_to = "organization",
+                        values_to = "team_name") %>%
+    dplyr::select(conference, organization, team_name,
+                  dplyr::everything()) %>%
+    dplyr::filter(team_name == team) %>%
+    dplyr::distinct(team_name, logo_url) %>%
+    dplyr::pull(logo_url)
+}

@@ -103,7 +103,7 @@ calculate_hexbins_from_shots = function(shots, league_averages = NULL,
 #'}
 #'
 #' @export
-generate_hex_chart = function(hex_shots, type = sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct", "bounded_points_per_shot")),
+generate_hex_chart = function(hex_shots, type = dplyr::sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct", "bounded_points_per_shot")),
                               team = "Duke", opponent = F, low_alpha_range = 0.85) {
   if (opponent) {
     title <- paste0(team, " Opponent's Shot Accuracy by Location")
@@ -209,7 +209,7 @@ generate_hex_chart = function(hex_shots, type = sym(c("bounded_fg_diff", "bounde
 #'
 #' @export
 team_player_hex_chart <- function(shots, league_averages, team, player = NULL,
-                                  type = sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct", "bounded_points_per_shot")), ...) {
+                                  type = dplyr::sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct", "bounded_points_per_shot")), ...) {
   # error checking
   if (is.null(league_averages) & type == "bounded_fg_diff") {
     usethis::ui_oops("Cannot compare FG% to league average if `league_averages` is NULL...")
@@ -233,7 +233,7 @@ team_player_hex_chart <- function(shots, league_averages, team, player = NULL,
                        " charted shots during the ", unique(shots$season), " season")
   }
   # find team logo
-  team_logo <- find_logo(team = team)
+  team_logo <- find_cbb_team_logo(team = team)
 
   # calculate hex shots
   hex <- calculate_hexbins_from_shots(shots = shots,

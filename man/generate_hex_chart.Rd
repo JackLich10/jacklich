@@ -6,7 +6,7 @@
 \usage{
 generate_hex_chart(
   hex_shots,
-  type = sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct",
+  type = dplyr::sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct",
     "bounded_points_per_shot")),
   team = "Duke",
   opponent = F,
