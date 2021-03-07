@@ -9,8 +9,20 @@
 #'
 #' @export
 convert_to_avgs <- function(shots) {
+  # error checking
+  necessary_cols <- c("location", "shot_zone_area",
+                      "shot_zone_range", "shot_value",
+                      "shot_made_numeric")
+
+  if (length(setdiff(necessary_cols, colnames(shots))) > 0) {
+    usethis::ui_oops(paste0("Data must have all of `location`, `shot_zone_area`, ",
+                            "\n`shot_zone_range`,`shot_value`, `shot_made_numeric`"))
+    usethis::ui_info("Returning NULL")
+    return(NULL)
+  }
+
   shots %>%
-    dplyr::group_by(Location, shot_zone_area, shot_zone_range, shot_value) %>%
+    dplyr::group_by(location, shot_zone_area, shot_zone_range, shot_value) %>%
     dplyr::summarise(fga = n(),
                      fgm = sum(shot_made_numeric),
                      .groups = "drop") %>%
