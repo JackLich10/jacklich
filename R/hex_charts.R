@@ -236,8 +236,8 @@ team_player_hex_chart <- function(shots, league_averages, team, player = NULL,
   p <- generate_hex_chart(hex_shots = hex, team = team_label,
                           type = type) +
     ggplot2::scale_x_continuous(limits = c(0.25, 49.75)) +
-    labs(subtitle = subtitle,
-         caption = "Chart: @jacklich10 | Data: @ncaahoopR")
+    ggplot2::labs(subtitle = subtitle,
+                  caption = "Chart: @jacklich10 | Data: @ncaahoopR")
 
   if (!is.null(player)) {
     cowplot::ggdraw(p) +
