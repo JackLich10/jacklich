@@ -235,7 +235,7 @@ team_player_hex_chart <- function(shots, league_averages, team, player = NULL,
   # plot
   p <- generate_hex_chart(hex_shots = hex, team = team_label,
                           type = type) +
-    scale_x_continuous(limits = c(0.25, 49.75)) +
+    ggplot2::scale_x_continuous(limits = c(0.25, 49.75)) +
     labs(subtitle = subtitle,
          caption = "Chart: @jacklich10 | Data: @ncaahoopR")
 
