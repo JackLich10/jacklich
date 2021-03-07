@@ -71,3 +71,4 @@ calculate_hex_coords = function(shots, binwidths) {
   dplyr::inner_join(hexbin_stats, filtered, by = c("shot_zone_area", "shot_zone_range"))
 }
 
+

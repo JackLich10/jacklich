@@ -87,6 +87,109 @@ calculate_hexbins_from_shots = function(shots, league_averages = NULL,
                   bounded_points_per_shot = pmin(pmax(zone_points_per_shot, pps_limits[1]), pps_limits[2]))
 }
 
+#' Generate a hex chart given data produced from \code{calculate_hexbins_from_shots}
+#'
+#' @param hex_shots shot location data produced from \code{calculate_hexbins_from_shots}
+#' @param team team for which the shot location data is from
+#' @param opponent logical denoting if shots come from the team or their opponent's
+#' @param type type of shot chart to create, one of sym(c("bounded_fg_diff",
+#' "bounded_freq_diff", "bounded_fg_pct", "bounded_points_per_shot"))
+#' @param low_alpha_range value denoting the lower limit of alpha for ggplot points
+#'
+#' @examples
+#' \dontrun{
+#' generate_hex_chart(hex_shots = duke, team = "Duke", opponent = F,
+#' type = sym("bounded_fg_diff"), low_alpha_range = 0.85)
+#'}
+#'
+#' @export
+generate_hex_chart = function(hex_shots, type = sym(c("bounded_fg_diff", "bounded_freq_diff", "bounded_fg_pct", "bounded_points_per_shot")),
+                              team = "Duke", opponent = F, low_alpha_range = 0.85) {
+  if (opponent) {
+    title <- paste0(team, " Opponent's Shot Accuracy by Location")
+  } else {
+    title <- paste0(team, "'s Shot Accuracy by Location")
+  }
+
+  if (length(hex_shots) == 0 || is.null(hex_shots)) {
+    return(base_court + ggplot2::labs(title = title))
+  }
+
+  if (type == "bounded_fg_diff") {
+    limits <- c(-.15, .15)
+    breaks <- seq(-.15, .15, .03)
+    labels <- c("-15%", "-12%", "-9%", "-6%", "-3%", "0%", "+3%", "+6%", "+9%", "+12%", "+15%")
+    legend_title <- "FG% vs. Division I Average"
+  } else if (type == "bounded_freq_diff") {
+    limits <- c(-.075, .075)
+    breaks <- seq(-.075, .075, .025)
+    labels <- c("-7.5%", "-5%", "-2.5%", "0%", "2.5%", "+5%", "+7.5%")
+    legend_title <- "FGA Frequency vs. Division I Average"
+  } else if (type == "bounded_fg_pct") {
+    limits <- c(0.2, 0.7)
+    breaks <- seq(0.2, 0.7, 0.1)
+    labels <- c("-20%", "30%", "40%", "50%", "60%", "70%")
+    legend_title <- "FG%"
+  } else if (type == "bounded_points_per_shot") {
+    limits <- c(0.5, 1.5)
+    breaks <- seq(0.5, 1.5, 0.2)
+    labels <- seq(0.5, 1.5, 0.2)
+    legend_title <- "Points Per Shot"
+  }
+
+  plot <- base_court +
+    ggplot2::geom_polygon(data = hex_shots,
+                          ggplot2::aes(x = adj_x, y = adj_y, group = hexbin_id,
+                                       fill = !!type, alpha = hex_attempts,
+                                       color = ggplot2::after_scale(prismatic::clr_darken(fill, .333))),
+                          size = 0.25) +
+    # ggplot2::geom_text(data = hex_shots %>% dplyr::filter(Location %in% c("LT CNR", "LT 45", "TOK 3", "RT CNR", "RT 45")),
+    #                    ggplot2::aes(x = label_loc_x, y = label_loc_y, label = shot_accuracy_lab),
+    #                    vjust = -1.2, size = 3, fontface = "bold") +
+    # ggplot2::geom_text(data = hex_shots %>% dplyr::filter(Location %in% c("CIRCLE", "PAINT", "MIDRANGE")),
+    #                    ggplot2::aes(x = label_loc_x, y = label_loc_y, label = side_by_side),
+    #                    vjust = -1, size = 3, fontface = "bold") +
+    # ggplot2::geom_text(data = hex_shots %>% dplyr::filter(Location %in% c("LT CNR", "LT 45", "TOK 3", "RT CNR", "RT 45")),
+    #                    ggplot2::aes(x = label_loc_x, y = label_loc_y, label = fg_fga_lab),
+    #                    vjust = -2.5, size = 3, fontface = "bold") +
+    ggplot2::theme(axis.line = ggplot2::element_blank(),
+                   axis.text= ggplot2::element_blank(),
+                   axis.ticks = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_blank(),
+                   panel.background = ggplot2::element_blank(),
+                   panel.grid = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_text(face = "bold", hjust = 0.5, size = 30/ggplot2::.pt, margin = ggplot2::margin(0, 0, 5, 0)),
+                   plot.subtitle = ggplot2::element_text(face = "italic", hjust = 0.5, size = 24/ggplot2::.pt),
+                   plot.caption = ggplot2::element_text(face = "italic", hjust = 1, size = 20/ggplot2::.pt, margin = ggplot2::margin(0, 0, 0, 0)),
+                   legend.spacing.x = grid::unit(0, 'cm'),
+                   legend.title = ggplot2::element_text(size = 20/ggplot2::.pt, face = "bold"),
+                   legend.text = ggplot2::element_text(size = 16/ggplot2::.pt),
+                   legend.margin = ggplot2::margin(0, 0, 0, 0),
+                   legend.position = 'bottom',
+                   legend.box.margin = ggplot2::margin(-35, 0, 0, 0),
+                   plot.margin = ggplot2::margin(5, 0, 5, 0)) +
+    ggplot2::scale_alpha_continuous(guide = F,
+                                    range = c(low_alpha_range, 1),
+                                    trans = "sqrt") +
+    ggplot2::scale_fill_distiller(direction = -1, palette = "RdBu",
+                                  limits = limits,
+                                  breaks = breaks,
+                                  labels = labels,
+                                  oob = scales::squish,
+                                  legend_title) +
+    ggplot2::guides(fill = ggplot2::guide_legend(label.position = 'bottom',
+                                                 title.position = 'top',
+                                                 keywidth = 0.4,
+                                                 keyheight = 0.125,
+                                                 default.unit = "inch",
+                                                 title.hjust = 0.5,
+                                                 title.vjust = -0.5,
+                                                 label.vjust = 3,
+                                                 nrow = 1)) +
+    ggplot2::labs(title = title)
+  return(plot)
+}
+
 #' Generate a hex chart for a given team or player
 #'
 #' @param shots shot location data from play-by-play source

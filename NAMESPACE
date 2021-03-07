@@ -3,6 +3,7 @@
 export("%>%")
 export(calculate_hexbins_from_shots)
 export(convert_to_avgs)
+export(generate_hex_chart)
 export(team_player_hex_chart)
 export(theme_jack)
 importFrom(magrittr,"%>%")
