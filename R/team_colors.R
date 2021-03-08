@@ -1,4 +1,3 @@
-
 #' Find the logo url for a college basketball team or program
 #'
 #' @param team name of the team for which to return their logo
@@ -12,8 +11,8 @@
 find_cbb_team_logo <- function(team) {
   pivot_long_team_info() %>%
     dplyr::filter(team_name == team) %>%
-    dplyr::distinct(team_name, logo_url) %>%
-    dplyr::pull(logo_url)
+    dplyr::distinct(team_name, team_logo_espn) %>%
+    dplyr::pull(team_logo_espn)
 }
 
 #' Find the two primary colors for a college basketball team or program
@@ -68,19 +67,11 @@ join_cbb_team_info <- function(data, join_name) {
 
 # Helper for team color functions
 pivot_long_team_info <- function() {
-  ncaahoopR::dict %>%
-    dplyr::mutate(conference = dplyr::case_when(
-      ESPN == "UConn" ~ "Big East",
-      T ~ conference)) %>%
-    dplyr::left_join(ncaahoopR::ncaa_colors %>%
-                       dplyr::select(-ncaa_name),
-                     by = c("ESPN" = "espn_name",
-                            "conference")) %>%
-    tidyr::pivot_longer(cols = c(NCAA:sref_name),
+  jacklich::cbb_team_info %>%
+    tidyr::pivot_longer(cols = c(team_name:sref_name),
                         names_to = "organization",
                         values_to = "team_name") %>%
     dplyr::distinct(team_name, .keep_all = T) %>%
     dplyr::select(conference, organization, team_name,
                   dplyr::everything())
 }
-
