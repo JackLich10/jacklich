@@ -2,4 +2,6 @@
 
 export("%>%")
 export(theme_jack)
+export(wt_mov_avg)
+import(pracma)
 importFrom(magrittr,"%>%")
